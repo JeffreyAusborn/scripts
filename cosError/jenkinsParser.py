@@ -29,7 +29,7 @@ def getLatestBuildNumber():
 	return rJson['number']
 
 def main():
-	buildNumber=7825
+	buildNumber=8028
 	while True:
 		latestBuild = getLatestBuildNumber()
 		if latestBuild != buildNumber:
