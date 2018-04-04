@@ -49,7 +49,7 @@ def main():
 			counter += 1
 
 		leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
-		if (int(leHour) > 9 or int(leHour) < 21) and "ServerWebCut" in tempDate:
+		if (int(leHour) == 17) and "ServerWebCut" in tempDate:
 			os.system('python getcsv.py '+tempDate+' '+tempYear)
 
 
