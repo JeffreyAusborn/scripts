@@ -62,16 +62,21 @@ def main():
 			tempDate = releaseDate
 			tempYear = year
 
+
+		leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
+		if (int(leHour) == 18) and "ServerWebCut" in tempDate:
+			os.system('python getcsv.py '+tempDate+' '+tempYear)
+			appDate = getAppCutDate()
+			if len(appDate) > 0:
+				os.system('python getcsv.py '+appDate.replace(' ', '')+' '+tempYear)
+		elif int(leHour) == 17:
 			counter = int(str(datetime.datetime.now()).replace(' ',':').split(':')[2])
 			while counter < 60:
 				time.sleep(60)
 				counter += 1
+		else:
+			time.sleep(60)
 
-			leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
-			if (int(leHour) == 18) and "ServerWebCut" in tempDate:
-				os.system('python getcsv.py '+tempDate+' '+tempYear)
-				if len(appDate) > 0:
-					os.system('python getcsv.py '+appDate.replace(' ', '')+' '+tempYear)
 
 
 main()
