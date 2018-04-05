@@ -20,6 +20,22 @@ def getTheDatas(buildNumber):
 				return releaseDate_, year
 	return '', ''
 
+def getAppCutDate():
+	r = requests.get("https://confluence.dev.clover.com/rest/api/content/18323351?expand=body.storage", auth=('jeffrey.ausborn','9ijn*UHB9ijn*UHB'))
+	rjson = r.json()
+
+	html_string = rjson['body']['storage']['value']
+	soup = BeautifulSoup(html_string, 'lxml') # Parse the HTML as a string
+	table = soup.find_all('table')[0] # Grab the first table
+	new_table = pd.DataFrame(columns=range(0,4), index = [0]) # I know the size 
+
+	row_marker = 0
+	for row in table.find_all('tr')[0]:
+	    if "CUT:" in row:
+	        continue
+	    else:
+	        return row.get_text()+" Apps Cut"
+
 def getLatestBuildNumber():
 	r = requests.get('http://jenkins.corp.clover.com:8080/job/build-deploy-server/lastBuild/api/json')
 	rJson = r.json()
@@ -38,8 +54,11 @@ def main():
 			buildNumber+=1
 
 		if len(releaseDate) > 0:
-			if len(tempDate) > 0 and (tempDate != releaseDate):
+			appDate = getAppCutDate()
+			if tempDate != releaseDate:
 				os.system('python getcsv.py '+tempDate+' '+tempYear)
+				if len(appDate) > 0:
+					os.system('python getcsv.py '+appDate.replace(' ', '')+' '+tempYear)
 			tempDate = releaseDate
 			tempYear = year
 
@@ -51,6 +70,8 @@ def main():
 			leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
 			if (int(leHour) == 18) and "ServerWebCut" in tempDate:
 				os.system('python getcsv.py '+tempDate+' '+tempYear)
+				if len(appDate) > 0:
+					os.system('python getcsv.py '+appDate.replace(' ', '')+' '+tempYear)
 
 
 main()
