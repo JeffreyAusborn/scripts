@@ -56,9 +56,9 @@ def main():
 		if len(releaseDate) > 0:
 			appDate = getAppCutDate()
 			if tempDate != releaseDate:
-				os.system('python getcsv.py '+tempDate+' '+tempYear)
+				os.system('python getcsv.py '+releaseDate+' '+year)
 				if len(appDate) > 0:
-					os.system('python getcsv.py '+appDate.replace(' ', '')+' '+tempYear)
+					os.system('python getcsv.py '+appDate.replace(' ', '')+' '+year)
 			tempDate = releaseDate
 			tempYear = year
 
