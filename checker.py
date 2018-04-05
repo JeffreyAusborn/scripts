@@ -5,6 +5,7 @@ import sys
 import time
 import datetime
 import commands
+from bs4 import BeautifulSoup
 
 def getTheDatas(buildNumber):
 	r = requests.get('http://jenkins.corp.clover.com:8080/job/build-deploy-server/'+str(buildNumber)+'/api/json')
@@ -27,7 +28,6 @@ def getAppCutDate():
 	html_string = rjson['body']['storage']['value']
 	soup = BeautifulSoup(html_string, 'lxml') # Parse the HTML as a string
 	table = soup.find_all('table')[0] # Grab the first table
-	new_table = pd.DataFrame(columns=range(0,4), index = [0]) # I know the size 
 
 	row_marker = 0
 	for row in table.find_all('tr')[0]:
