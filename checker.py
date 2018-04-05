@@ -6,7 +6,7 @@ import time
 import datetime
 import commands
 
-def getTheData(buildNumber):
+def getTheDatas(buildNumber):
 	r = requests.get('http://jenkins.corp.clover.com:8080/job/build-deploy-server/'+str(buildNumber)+'/api/json')
 	if r.status_code == 200:
 		rJson = r.json()
@@ -34,7 +34,7 @@ def main():
 	while True:
 		latestBuild = getLatestBuildNumber()
 		if latestBuild >= buildNumber:
-			releaseDate, year = getTheData(buildNumber)
+			releaseDate, year = getTheDatas(buildNumber)
 			buildNumber+=1
 
 		if len(releaseDate) > 0:
@@ -43,14 +43,14 @@ def main():
 			tempDate = releaseDate
 			tempYear = year
 
-		counter = int(str(datetime.datetime.now()).replace(' ',':').split(':')[2])
-		while counter < 60:
-			time.sleep(60)
-			counter += 1
+			counter = int(str(datetime.datetime.now()).replace(' ',':').split(':')[2])
+			while counter < 60:
+				time.sleep(60)
+				counter += 1
 
-		leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
-		if (int(leHour) == 17) and "ServerWebCut" in tempDate:
-			os.system('python getcsv.py '+tempDate+' '+tempYear)
+			leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
+			if (int(leHour) == 18) and "ServerWebCut" in tempDate:
+				os.system('python getcsv.py '+tempDate+' '+tempYear)
 
 
 main()
