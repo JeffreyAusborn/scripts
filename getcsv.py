@@ -81,7 +81,7 @@ if r.status_code == 200:
 	with open('testZeph.txt', 'w') as tz:
 		tz.write(zephyString)	
 
-	# os.system("./sendCurl.sh")
+	os.system("./sendCurl.sh")
 
 else:
 	print "bad url"
