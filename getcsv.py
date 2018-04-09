@@ -60,25 +60,28 @@ if r.status_code == 200:
 	for v,k in allDict_View:
 		vDict_View = [ (v1, k1) for k1,v1 in v.iteritems()]
 		vDict_View.sort(reverse=True)
+		# print vDict_View
 		for v1, k1 in vDict_View:
-			if k1 == 'cycleName':
-				zephyString+='{"title": "cycleName","value": "'+str(v1)+'" ,"short": False},'
-			elif k1 == 'status':
-				v1Dict_View = [ (v2, k2) for k2,v2 in v1.iteritems()]
-				v1Dict_View.sort(reverse=True)
-				for v2, k2 in v1Dict_View:
-					zephyString+='{"title": "'+str(k2)+'","value": '+str(v2)+' ,"short": True},'
-			else:
-				v1Dict_View = [ (v2, k2) for k2,v2 in v1.iteritems()]
-				v1Dict_View.sort(reverse=True)
-				for v2, k2 in v1Dict_View:
-					zephyString+='{"title": "'+str(k2)+'","value": '+str(v2)+' ,"short": True},'
+			# print k1
+			if ('FAIL' in v['status']) or ('PASS' not in v['status']):
+				if k1 == 'cycleName':
+					zephyString+='{"title": "cycleName","value": "'+str(v1)+'" ,"short": False},'
+				elif k1 == 'status':
+					v1Dict_View = [ (v2, k2) for k2,v2 in v1.iteritems()]
+					v1Dict_View.sort(reverse=True)
+					for v2, k2 in v1Dict_View:
+						zephyString+='{"title": "'+str(k2)+'","value": '+str(v2)+' ,"short": True},'
+				else:
+					v1Dict_View = [ (v2, k2) for k2,v2 in v1.iteritems()]
+					v1Dict_View.sort(reverse=True)
+					for v2, k2 in v1Dict_View:
+						zephyString+='{"title": "'+str(k2)+'","value": '+str(v2)+' ,"short": True},'
 
 	zephyString+='{"title": "What Failed","value": "'+failedString.replace('"', '\\"')+'","short": False}],"color": "#F35A00"}]}'
 	with open('testZeph.txt', 'w') as tz:
 		tz.write(zephyString)	
 
-	os.system("./sendCurl.sh")
+	# os.system("./sendCurl.sh")
 
 else:
 	print "bad url"
