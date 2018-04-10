@@ -66,16 +66,15 @@ def main():
 
 
 		leHour = str(datetime.datetime.now()).replace(' ',':').split(':')[1]
-		if (int(leHour) == 17) and "ServerWebCut" in tempDate:
+		if (int(leHour) == 16) and "ServerWebCut" in tempDate:
+			counter = int(str(datetime.datetime.now()).replace(' ',':').split(':')[2])
+			while counter < 61:
+				time.sleep(60)
+				counter += 1
 			os.system('python getcsv.py '+tempDate+' '+tempYear)
 			appDate = getAppCutDate()
 			if len(appDate) > 0:
 				os.system('python getcsv.py '+appDate.replace(' ', '')+' '+tempYear)
-		elif int(leHour) == 16:
-			counter = int(str(datetime.datetime.now()).replace(' ',':').split(':')[2])
-			while counter < 60:
-				time.sleep(60)
-				counter += 1
 		else:
 			time.sleep(60)
 
