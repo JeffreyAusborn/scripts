@@ -22,7 +22,7 @@ def getTheDatas(buildNumber):
 	return '', ''
 
 def getAppCutDate():
-	r = requests.get("https://confluence.dev.clover.com/rest/api/content/18323351?expand=body.storage", auth=('jeffrey.ausborn','9ijn*UHB9ijn*UHB'))
+	r = requests.get("https://confluence.dev.clover.com/rest/api/content/18323351?expand=body.storage", auth=(ldap_user,ldap_pass))
 	rjson = r.json()
 
 	html_string = rjson['body']['storage']['value']
